@@ -2,8 +2,6 @@
 
 package GoUrDHT
 
-import "net/http"
-
 const api_version = "api/v0"
 
 var myLogic DHTLogic

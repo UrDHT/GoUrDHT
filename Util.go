@@ -3,9 +3,9 @@
 package GoUrDHT
 
 type PeerInfo struct {
-	id     string
-	addr   string
-	wsAddr string
+	id   string
+	addr string
+	loc  []float64
 }
 
 //TODO: convert the method overrides from the Python

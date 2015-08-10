@@ -10,17 +10,52 @@ see: https://github.com/UrDHT/DevelopmentPlan/blob/master/Network.md
 package main
 
 //import "encoding/json"
-import "net/http"
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
+
 import "io/ioutil"
 
-var version string = "api/v0/"
-var clientURL string = version+"client/"
-var peerURL string = version + "peer/"
+var version = "api/v0/"
+var clientURL = version + "client/"
+var peerURL = version + "peer/"
 
+// Networking is a struct reprenting the object responsible for out netowrking functions
 type Networking struct {
 	ip, port string
 }
+
+// Ping checks for the existance of the peer at remote address
+// If it  fails, all other functions will too
+func (nw Networking) Ping(remote string) string {
+	resp, err := http.Get(remote + version + peerURL + "ping")
+	if err != nil {
+		return "BAD"
+	}
+	text, err := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	if err != nil {
+		return "BAD"
+	}
+
+	return string(text)
+}
+
+func (nw Networking) GetIP(remote string) string {
+	resp, err := http.Get(remote + version + peerURL + "getmyIP")
+	if err != nil {
+		return "BAD"
+	}
+	text, err := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	if err != nil {
+		return "BAD"
+	}
+
+	return string(text)
+}
+
 /*
 func (nw Networking) setup(logic DHTLogic, database DataBase) {
 	//TODO: what is the server type?
@@ -39,20 +74,13 @@ func (nw Networking) notify(remote, origin string) bool {
 func (nw Networking) store(remote, id, data string) bool {
 }
 
-func (nw Networking) GetIP(remote string) string {
-}
-*/
 //func (nw Networking) Ping(remote string) string {
-func Ping(remote string) {
-	resp, _  := http.Get(remote+version+peerURL+"ping")
-	text, _ :=  ioutil.ReadAll(resp.Body)
-	resp.Body.Close()
-	
-	fmt.Printf("The repsonse is %s", text)
-}
 
+*/
 
 func main() {
 	target := "http://envy.blamestross.com:8000/"
-	Ping(target)
+	nw := new(Networking)
+	reply := nw.GetIP(target)
+	fmt.Println(reply)
 }
