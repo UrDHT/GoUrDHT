@@ -1,6 +1,6 @@
 // This is the REST API server.
 
-package main
+package server
 
 const api_version = "api/v0"
 

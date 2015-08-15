@@ -7,7 +7,7 @@ see: https://github.com/UrDHT/DevelopmentPlan/blob/master/Network.md
 
 */
 
-package main
+package network
 
 //import "encoding/json"
 import (
