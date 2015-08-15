@@ -13,3 +13,9 @@ func TestPing(t *testing.T) {
 		t.Errorf("Expected %s, got %s", want, got)
 	}
 }
+
+func TestGetPeers(t *testing.T) {
+	target := "http://envy.blamestross.com:8000/"
+	nw := new(Networking)
+	nw.GetPeers(target)
+}

@@ -9,10 +9,12 @@ see: https://github.com/UrDHT/DevelopmentPlan/blob/master/Network.md
 
 package network
 
-//import "encoding/json"
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/UrDHt/GoUrDHT/util"
 )
 
 import "io/ioutil"
@@ -26,8 +28,6 @@ type Networking struct {
 	ip, port string
 }
 
-type PeerInfo PeerInfo
-
 // Ping checks for the existance of the peer at remote address
 // If it  fails, all other functions will too
 func (nw Networking) Ping(remote string) string {
@@ -40,11 +40,10 @@ func (nw Networking) Ping(remote string) string {
 	if err != nil {
 		return "BAD"
 	}
-
 	return string(text)
 }
 
-// Returns the ip of the asker, NOT REMOTE
+// GetIP the ip of the asker, the one calling the function
 func (nw Networking) GetIP(remote string) string {
 	resp, err := http.Get(remote + version + peerURL + "getmyIP")
 	if err != nil {
@@ -59,9 +58,23 @@ func (nw Networking) GetIP(remote string) string {
 	return string(text)
 }
 
-func (nw Networking) GetPeers(remote string) []PeerInfo {
-	var results []PeerInfo
+func (nw Networking) GetPeers(remote string) []util.PeerInfo {
+	var results []util.PeerInfo
 	resp, err := http.Get(remote + version + peerURL + "getPeers")
+	if err != nil {
+		panic(err)
+	}
+	bytes, err := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(bytes))
+
+	if err = json.Unmarshal(bytes, &results); err != nil {
+		panic(err)
+	}
+
 	return results
 }
 
@@ -87,10 +100,3 @@ func (nw Networking) store(remote, id, data string) bool {
 //func (nw Networking) Ping(remote string) string {
 
 */
-
-func main() {
-	target := "http://envy.blamestross.com:8000/"
-	nw := new(Networking)
-	reply := nw.GetIP(target)
-	fmt.Println(reply)
-}
