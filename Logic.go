@@ -60,7 +60,7 @@ DHT logic can be internally separated into two parts:
 ```
 */
 
-package GoUrDHT
+package main
 
 type DHTLogic struct {
 	network        Networking

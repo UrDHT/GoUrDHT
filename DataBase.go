@@ -2,7 +2,7 @@
 see: https://github.com/UrDHT/DevelopmentPlan/blob/master/Database.md
 */
 
-package GoUrDHT
+package main
 
 import "time"
 
@@ -17,19 +17,19 @@ type Tuple struct {
 	id, val interface{}
 }
 
-func (db Database) setup() {
-	return nil
+func (db DataBase) setup() {
+
 }
 
-func (db Database) shutdown() {
-	return nil
+func (db DataBase) shutdown() {
+
 }
 
 func (db DataBase) get(id string) string {
 	if val, exists := db.records[id]; exists {
 		return val
 	}
-	return nil
+	return ""
 }
 
 func (db DataBase) store(id string, val string) {
@@ -45,7 +45,7 @@ func (db DataBase) post(id string, val string) {
 	}
 }
 
-func (db DataBase) poll(id string, t Time) []Tuple {
+func (db DataBase) poll(id string, t int64) []Tuple {
 	var result []Tuple
 
 	for key, value := range db {

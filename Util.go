@@ -1,6 +1,6 @@
 // Utility methods and structs live here
 
-package GoUrDHT
+package main
 
 type PeerInfo struct {
 	id   string

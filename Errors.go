@@ -1,6 +1,6 @@
 // This file should contain all error-handling functions
 
-package GoUrDHT
+package main
 
 import "fmt"
 
